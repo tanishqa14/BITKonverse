@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>BITKonverse</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="/static/assets/img/favicon.png" rel="icon">
+    <link href="/static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="/static/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="/static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="/static/assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- ======= Mobile nav toggle button ======= -->
+    <i class="bi bi-list mobile-nav-toggle d-xl-none"></i>
+
+    <!-- ======= Header ======= -->
+    <header id="header">
+        <div class="d-flex flex-column">
+
+            <div class="profile">
+                <img src="/static/assets/img/profile-user.png" alt="" class="img-fluid rounded-circle">
+                <h1 class="text-light"><a href="/node">
+                        <p id="demo">
+                    </a></h1>
+            </div>
+
+            <nav id="navbar" class="nav-menu navbar">
+                <ul>
+                    <li><a href="/" class="nav-link scrollto active"><i class="bx bx-home"></i> <span>Home</span></a>
+                    </li>
+                    <li><a href="#add" class="nav-link scrollto"><i class="bx bx-user-plus"></i> <span>Add
+                                Friends</span></a></li>
+                    <li><a href="#find" class="nav-link scrollto"><i class="bx bx-group"></i> <span>Your
+                                Friends</span></a></li>
+                    <li><a href="/cert" class="nav-link scrollto"><i class="bx bx-certification"></i> <span>My
+                                Certificate</span></a></li>
+                    <li><a href="/node" class="nav-link scrollto"><i class="bx bx-envelope"></i><span>Message</span></a>
+                    </li>
+                </ul>
+            </nav><!-- .nav-menu -->
+        </div>
+    </header>
+    <!-- End Header -->
+
+    <main id="main">
+
+        <div id="app">
+            <!-- ======= Contact Section ======= -->
+            <section id="add" class="contact">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Add Friends</h2>
+                        <h3>Find your friends online.<br> Add their ID(localhost) and add them to your list.</h3>
+                    </div>
+
+                    <!-- <div v-if="error1" class="alert alert-danger" role="alert">
+                        {{ error1 }}
+                    </div>
+                    <div v-if="success1" class="alert alert-success" role="alert">
+                        {{ success1 }}
+                    </div> -->
+
+
+                    <div class="row">
+                        <div class="col">
+                            <form @submit.prevent="onAddNode" class="php-email-form">
+                                <div class="form-group">
+                                    <h3 class="resume-title"><label for="node-url" STYLE="color: #173b6c"><strong>Enter
+                                                URL</strong> </label></h3>
+                                    <input v-model="newNodeUrl" type="text" class="form-control" id="node-url"
+                                        placeholder="localhost:5001">
+                                </div>
+
+                                <p v-if="error1" style="word-wrap: break-word;" role="alert"><strong>
+                                        {{ error1 }}</strong>
+                                </p>
+                                <p v-if="success1" role="alert" style="word-wrap: break-word;"><strong>
+                                        {{ success1 }}</strong>
+                                </p>
+                                <br>
+                                <button :disabled="newNodeUrl.trim() === ''" type="submit" class="btn btn-primary">Add
+                                    Friend</button>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+            </section><!-- End Contact Section -->
+
+            <section id="find" class="contact">
+                <div class="container">
+                    <div class="section-title">
+                        <h2>Your Friends</h2>
+                        <h3>View and Remove your friends.</h3>
+                    </div>
+                    <!-- <div v-if="error2" class="alert alert-danger" role="alert">
+                        {{ error2 }}
+                    </div>
+                    <div v-if="success2" class="alert alert-success" role="alert">
+                        {{ success2 }}
+                    </div> -->
+
+
+
+
+
+                    <div class="php-email-form">
+                        <p v-if="error2" style="word-wrap: break-word;" role="alert"><strong>
+                                {{ error2 }}</strong>
+                        </p>
+                        <p v-if="success2" role="alert" style="word-wrap: break-word;"><strong>
+                                {{ success2 }}</strong>
+                            <!-- <div class="form-group"> -->
+                        <div class="row my-3">
+                            <div class="col">
+
+                                <button class="btn btn-primary" type="submit" @click="onLoadNodes">View
+                                    Friends</button>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <ul class="list-group">
+                                    <button v-for="node in nodes" style="cursor: pointer;"
+                                        class="list-group-item list-group-item-action" @click="onRemoveNode(node)">
+                                        {{ node }} (click to delete)
+                                    </button>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+        </section>
+        </div>
+    </main><!-- End #main -->
+    <!-- ======= Footer ======= -->
+    <footer id="footer">
+        <div class="container">
+            <div class="copyright"><strong><span>BITKonverse</span></strong>
+            </div>
+        </div>
+    </footer><!-- End  Footer -->
+
+    <script>
+        let port = location.port;
+        document.getElementById("demo").innerHTML = "localhost:" + port;
+    </script>
+    <script type="text/javascript" src="/static/particles.js"></script>
+    <script type="text/javascript" src="/static/app.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                nodes: [],
+                newNodeUrl: '',
+                error1: null,
+                success1: null,
+                error2: null,
+                success2: null
+            },
+            methods: {
+                onAddNode: function () {
+                    // Add node as peer node to local node server
+                    var vm = this;
+                    axios.post('/node', { node: this.newNodeUrl })
+                        .then(function (response) {
+                            vm.success1 = 'Friend Added!';
+                            vm.error1 = null;
+                            vm.nodes = response.data.all_nodes
+                        })
+                        .catch(function (error) {
+                            vm.success1 = null;
+                            vm.error1 = error.response.data.message;
+                        });
+                },
+                onLoadNodes: function () {
+                    // Load all peer nodes of the local node server
+                    var vm = this;
+                    axios.get('/nodes')
+                        .then(function (response) {
+                            vm.success2 = 'Friends Loaded!';
+                            vm.error2 = null;
+                            vm.nodes = response.data.all_nodes
+                        })
+                        .catch(function (error) {
+                            vm.success2 = null;
+                            vm.error2 = error.response.data.message;
+                        });
+                },
+                onRemoveNode: function (node_url) {
+                    // Remove node as a peer node
+                    var vm = this;
+                    axios.delete('/node/' + node_url)
+                        .then(function (response) {
+                            vm.success2 = 'Friend Removed!';
+                            vm.error2 = null;
+                            vm.nodes = response.data.all_nodes
+                        })
+                        .catch(function (error) {
+                            vm.success2 = null;
+                            vm.error2 = error.response.data.message;
+                        });
+                }
+            }
+        })
+    </script>
+    </div>
+</body>
+
+</html>
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Blockchain Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+        integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <style>
+        .lds-ring {
+            display: inline-block;
+            position: relative;
+            width: 64px;
+            height: 64px;
+        }
+
+        .lds-ring div {
+            box-sizing: border-box;
+            display: block;
+            position: absolute;
+            width: 51px;
+            height: 51px;
+            margin: 6px;
+            border: 6px solid #fa923f;
+            border-radius: 50%;
+            animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            border-color: #fa923f transparent transparent transparent;
+        }
+
+        .lds-ring div:nth-child(1) {
+            animation-delay: -0.45s;
+        }
+
+        .lds-ring div:nth-child(2) {
+            animation-delay: -0.3s;
+        }
+
+        .lds-ring div:nth-child(3) {
+            animation-delay: -0.15s;
+        }
+
+        @keyframes lds-ring {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            position: relative;
+            width: 100%;
+        }
+
+        .navbar-nav>.active>a {
+            background-color: wheat;
+        }
+
+        #particles-js {
+
+            background: #6b2138;
+        }
+    </style>
+</head>
+
+</html>

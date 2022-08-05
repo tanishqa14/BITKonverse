@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>BITKonverse</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="/static/assets/img/favicon.png" rel="icon">
+    <link href="/static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="/static/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="/static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="/static/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="/static/assets/css/style.css" rel="stylesheet">
+
+    <!-- =======================================================
+  * Template Name: iPortfolio - v3.7.0
+  * Template URL: https://bootstrapmade.com/iportfolio-bootstrap-portfolio-websites-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+    <!-- ======= Mobile nav toggle button ======= -->
+    <!-- <i class="bi bi-list mobile-nav-toggle d-xl-none"></i> -->
+
+    <!-- ======= Hero Section ======= -->
+
+    <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
+
+
+        <div class="hero-container" data-aos="fade-in">
+            <h1>BITKonverse</h1>
+            <p>Be <span class="typed" data-typed-items="Secure, Connected, a Community"></span></p>
+
+            <div id="app">
+
+                <div class="btns">
+                    <div v-if="!walletLoading">
+                        <a class="btn-menu animated fadeInUp scrollto" @click="onCreateWallet" href="/node">
+                            Start Messaging
+                        </a>
+                        <a class="btn-book animated fadeInUp scrollto" @click="onLoadWallet" href="/network">
+                            Find Friends
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+            <!-- <div class="btns">
+                <div v-if="!walletLoading">
+                    <a href="/node" class="btn-menu animated fadeInUp scrollto" @click="onCreateWallet">Create
+                        Account</a>
+                    <a href="/node" class="btn-book animated fadeInUp scrollto" @click="onLoadWallet">Login</a>
+                </div>
+            </div> -->
+        </div>
+
+    </section><!-- End Hero -->
+
+
+    <!-- Vendor JS Files -->
+    <script src="/static/assets/vendor/purecounter/purecounter.js"></script>
+    <script src="/static/assets/vendor/aos/aos.js"></script>
+    <script src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/assets/vendor/glightbox/js/glightbox.min.js"></script>
+    <script src="/static/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+    <script src="/static/assets/vendor/swiper/swiper-bundle.min.js"></script>
+    <script src="/static/assets/vendor/typed.js/typed.min.js"></script>
+    <script src="/static/assets/vendor/waypoints/noframework.waypoints.js"></script>
+    <script src="/static/assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="/static/assets/js/main.js"></script>
+
+    <script type="text/javascript" src="/static/particles.js"></script>
+    <script type="text/javascript" src="/static/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                blockchain: [],
+                openTransactions: [],
+                wallet: null,
+                view: 'chain',
+                walletLoading: false,
+                txLoading: false,
+                dataLoading: false,
+                showElement: null,
+                error: null,
+                success: null,
+                funds: 0,
+                outgoingTx: {
+                    recipient: '',
+                    amount: 0
+                }
+            },
+            computed: {
+                loadedData: function () {
+                    if (this.view === 'chain') {
+                        return this.blockchain;
+                    } else {
+                        return this.openTransactions;
+                    }
+                }
+            },
+            methods: {
+                onCreateWallet: function () {
+                    // Send Http request to create a new wallet (and return keys)
+                    var vm = this;
+                    this.walletLoading = true
+                    axios.post('/wallet')
+                        .then(function (response) {
+                            vm.error = null;
+                            vm.success = 'Created Wallet! Public Key: ' + response.data.public_key + "\n" + ', Private Key: ' + response.data.private_key;
+                            vm.wallet = {
+                                public_key: response.data.public_key,
+                                private_key: response.data.private_key
+                            }
+                            vm.funds = response.data.funds;
+                            vm.walletLoading = false
+                        })
+                        .catch(function (error) {
+                            vm.success = null;
+                            vm.error = error.response.data.message
+                            vm.wallet = null
+                            vm.walletLoading = false
+                        });
+                },
+                onLoadWallet: function () {
+                    // Send Http request to load an existing wallet (from a file on the server)
+                    var vm = this;
+                    this.walletLoading = true
+                    axios.get('/wallet')
+                        .then(function (response) {
+                            vm.error = null;
+                            vm.success = 'Created Wallet! Public Key: ' + response.data.public_key + "\n" + ', Private Key: ' + response.data.private_key;
+                            vm.wallet = {
+                                public_key: response.data.public_key,
+                                private_key: response.data.private_key
+                            }
+                            vm.funds = response.data.funds;
+                            vm.walletLoading = false;
+                        })
+                        .catch(function (error) {
+                            vm.success = null;
+                            vm.error = error.response.data.message;
+                            vm.wallet = null;
+                            vm.walletLoading = false;
+                        });
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>
